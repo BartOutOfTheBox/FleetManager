@@ -1,5 +1,5 @@
 sap.ui.define([
-    "sap/ui/core/mvc/Controller"
+    "./BaseController"
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
@@ -9,6 +9,15 @@ sap.ui.define([
 
         return Controller.extend("be.amista.carmanagecarsui.controller.CarList", {
             onInit: function () {
+
+            },
+
+            /**
+             * When the user presses the button to add a car to the system.
+             * 
+             * @param {Object} oEvent - The click event supplied by the view.
+             */
+            onPressAddCarButton: function (oEvent) {
 
             }
         });
