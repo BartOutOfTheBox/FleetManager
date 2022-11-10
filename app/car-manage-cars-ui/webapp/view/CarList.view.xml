@@ -15,6 +15,7 @@
 		<headerToolbar>
 			<OverflowToolbar id="idCarsTableToolbar">
 				<ToolbarSpacer id="idCarsTableToolbarSpacer"/>
+				<SearchField id="idCarsTableSearchField" width="24em" liveChange="onCarsTableSeach"/>
 				<Button id="idCarsTableAddButton" icon="sap-icon://add" press="handlePressAddCarButton"/>
 			</OverflowToolbar>
 		</headerToolbar>
@@ -31,6 +32,9 @@
 			<Column id="idCarsColor">
 				<Text id="idCarsColorText" text="Color" />
 			</Column>
+			<Column id="idCarsDelete">
+				<Text id="idCarsDeleteText" />
+			</Column>
 		</columns>
 		<items>
 			<ColumnListItem id="idCarsListing">
@@ -43,6 +47,7 @@
 						text="{MODEL}" />
 					<Text id="idCarsColorValue"
 						text="{COLOR}" />
+					<Button id="idCarsDeleteButton" icon="sap-icon://delete" press="handlePressDeleteCarButton"/>
 				</cells>
 			</ColumnListItem>
 		</items>

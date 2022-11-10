@@ -1,10 +1,13 @@
 sap.ui.define([
-    "./BaseController"
+    "./BaseController",
+    "sap/ui/model/Filter",
+	"sap/ui/model/FilterOperator",
+	"sap/ui/model/FilterType",
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller) {
+    function (Controller, Filter, FilterOperator, FilterType) {
         "use strict";
 
         return Controller.extend("be.amista.carmanagecarsui.controller.CarList", {
@@ -18,12 +21,14 @@ sap.ui.define([
              * @param {Object} oEvent - The click event supplied by the view.
              */
             handlePressAddCarButton: function (oEvent) {
+                // lazy loading
                 if (!this._addDialog) {
                     this._addDialog = this.loadFragment({
                         name: "be.amista.carmanagecarsui.fragment.AddCarDialog",
                     });
                 }
-    
+                
+                // open dialog
                 this._addDialog.then(function (oDialog) {
                     oDialog.open();
                 });
@@ -36,9 +41,10 @@ sap.ui.define([
                     "MODEL": this.getView().byId("idAddCarDialogModelInput").getValue(),
                     "COLOR": this.getView().byId("idAddCarDialogColorInput").getValue()
                 };
-                var oCarsList = this.getModel().bindList("/Cars");
-                var oNewContext = 
-                    oCarsList.create(oEntry);
+                //var oCarsList = this.getModel().bindList("/Cars");
+                var oBindingContext =this.getView().byId("idCarsTable").getBinding("items");
+                oBindingContext.create(oEntry);
+                
                 this.getView().byId("idAddCarDialog").close();
             },
 
@@ -46,6 +52,25 @@ sap.ui.define([
                 if (this._addDialog) {
                     this.getView().byId("idAddCarDialog").close();
                 }
+            },
+
+            onCarsTableSeach: function(oEvent) {
+                var oCarsTable = this.getView().byId("idCarsTable");
+                var sValue = oEvent.getSource().getValue();
+                var oFilter = 
+                    new Filter({
+                        path: 'MAKE',
+                        operator: FilterOperator.Contains,
+                        value1: sValue,
+                        caseSensitive: false,
+                    });
+
+                oCarsTable.getBinding("items").filter(oFilter, FilterType.Application);
+            },
+
+            handlePressDeleteCarButton: function(oEvent) {
+                var oBindingContext = oEvent.getSource().getBindingContext();
+                oBindingContext.delete();
             },
         });
     });
