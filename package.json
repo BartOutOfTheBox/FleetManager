@@ -1,0 +1,77 @@
+{
+    "name": "car",
+    "version": "1.0.0",
+    "description": "A simple CAP project.",
+    "repository": "<Add your repository here>",
+    "license": "UNLICENSED",
+    "private": true,
+    "dependencies": {
+        "@sap/cds": "^6.3.1",
+        "@sap/cds-dk": "^6.3.1",
+        "@sap/cds-odata-v2-adapter-proxy": "^1.9.14",
+        "@sap/hana-client": "^2.14.22",
+        "@sap/xssec": "^3.2.14",
+        "express": "^4.18.2",
+        "hdb": "^0.19.5",
+        "passport": "^0.6.0"
+    },
+    "scripts": {
+        "start": "cds run",
+        "watch-car-manage-cars-ui": "cds watch --open car-manage-cars-ui/webapp/index.html?sap-ui-xx-viewCache=false",
+        "undeploy": "cf undeploy car --delete-services --delete-service-keys --delete-service-brokers",
+        "build": "rimraf resources mta_archives && mbt build --mtar archive",
+        "deploy": "cf deploy mta_archives/archive.mtar --retries 1"
+    },
+    "engines": {
+        "node": "^16.15"
+    },
+    "eslintConfig": {
+        "extends": "eslint:recommended",
+        "env": {
+            "es2020": true,
+            "node": true,
+            "jest": true,
+            "mocha": true
+        },
+        "globals": {
+            "SELECT": true,
+            "INSERT": true,
+            "UPDATE": true,
+            "DELETE": true,
+            "CREATE": true,
+            "DROP": true,
+            "CDL": true,
+            "CQL": true,
+            "CXL": true,
+            "cds": true
+        },
+        "rules": {
+            "no-console": "off",
+            "require-atomic-updates": "off"
+        }
+    },
+    "cds": {
+        "build": {
+            "target": "."
+        },
+        "hana": {
+            "deploy-format": "hdbtable"
+        },
+        "requires": {
+            "db": {
+                "kind": "hana"
+            },
+            "uaa": {
+                "kind": "xsuaa"
+            }
+        }
+    },
+    "sapux": [
+        "app/car-manage-cars-ui",
+        "app/car-manage-cars-ui"
+    ],
+    "devDependencies": {
+        "@sap/ux-specification": "^1.102.11",
+        "rimraf": "^3.0.2"
+    }
+}

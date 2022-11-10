@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:DataServices>
+        <Schema Namespace="CatalogService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+            <EntityContainer Name="EntityContainer">
+                <EntitySet Name="Cars" EntityType="CatalogService.Cars"/>
+            </EntityContainer>
+            <EntityType Name="Cars">
+                <Key>
+                    <PropertyRef Name="VIN"/>
+                </Key>
+                <Property Name="VIN" Type="Edm.String" MaxLength="17" Nullable="false"/>
+                <Property Name="MAKE" Type="Edm.String" MaxLength="100"/>
+                <Property Name="MODEL" Type="Edm.String" MaxLength="100"/>
+                <Property Name="COLOR" Type="Edm.String" MaxLength="50"/>
+            </EntityType>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

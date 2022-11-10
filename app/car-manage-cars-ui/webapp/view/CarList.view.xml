@@ -1,0 +1,49 @@
+<mvc:View
+    controllerName="be.amista.carmanagecarsui.controller.CarList"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    displayBlock="true"
+    height="100%" >
+    <Table id="idCarsTable"
+		items="{
+			path: '/Cars',
+			sorter: {
+				path: 'MAKE'
+			}
+		}">
+		<headerToolbar>
+			<OverflowToolbar id="idCarsTableToolbar">
+				<ToolbarSpacer id="idCarsTableToolbarSpacer"/>
+				<Button id="idCarsTableAddButton" icon="sap-icon://add" press="onPressAddCarButton"/>
+			</OverflowToolbar>
+		</headerToolbar>
+        <columns>
+			<Column id="idCarsVin">
+				<Text id="idCarsVinText" text="VIN Number" />
+			</Column>
+			<Column id="idCarsMake">
+				<Text id="idCarsMakeText" text="Make" />
+			</Column>
+			<Column id="idCarsModel">
+				<Text id="idCarsModelText" text="Model" />
+			</Column>
+			<Column id="idCarsColor">
+				<Text id="idCarsColorText" text="Color" />
+			</Column>
+		</columns>
+		<items>
+			<ColumnListItem id="idCarsListing">
+				<cells>
+					<Text id="idCarsVinValue"
+						text="{VIN}" />
+					<Text id="idCarsMakeValue"
+						text="{MAKE}" />
+                    <Text id="idCarsModelValue"
+						text="{MODEL}" />
+					<Text id="idCarsColorValue"
+						text="{COLOR}" />
+				</cells>
+			</ColumnListItem>
+		</items>
+    </Table>
+</mvc:View>

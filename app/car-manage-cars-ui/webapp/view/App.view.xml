@@ -1,0 +1,13 @@
+<mvc:View controllerName="be.amista.carmanagecarsui.controller.App"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m"
+    height="100%">
+    <Page id="idAppPage"
+		title="{i18n>title}"
+            titleAlignment="Center"
+		class="sapUiContentPadding sapUiResponsivePadding--content">
+		<content>
+            <mvc:XMLView id="idCarOverview" viewName="be.amista.carmanagecarsui.view.CarList"/>
+		</content>
+	</Page>
+</mvc:View>
