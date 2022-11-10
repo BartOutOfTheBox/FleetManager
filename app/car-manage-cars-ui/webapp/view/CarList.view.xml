@@ -1,4 +1,5 @@
 <mvc:View
+	id="idCarListView" 
     controllerName="be.amista.carmanagecarsui.controller.CarList"
     xmlns="sap.m"
     xmlns:mvc="sap.ui.core.mvc"
@@ -14,7 +15,7 @@
 		<headerToolbar>
 			<OverflowToolbar id="idCarsTableToolbar">
 				<ToolbarSpacer id="idCarsTableToolbarSpacer"/>
-				<Button id="idCarsTableAddButton" icon="sap-icon://add" press="onPressAddCarButton"/>
+				<Button id="idCarsTableAddButton" icon="sap-icon://add" press="handlePressAddCarButton"/>
 			</OverflowToolbar>
 		</headerToolbar>
         <columns>
