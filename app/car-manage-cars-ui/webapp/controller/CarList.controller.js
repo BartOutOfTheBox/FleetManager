@@ -41,10 +41,10 @@ sap.ui.define([
                     "MODEL": this.getView().byId("idAddCarDialogModelInput").getValue(),
                     "COLOR": this.getView().byId("idAddCarDialogColorInput").getValue()
                 };
-                //var oCarsList = this.getModel().bindList("/Cars");
+                
                 var oBindingContext =this.getView().byId("idCarsTable").getBinding("items");
                 oBindingContext.create(oEntry);
-                
+
                 this.getView().byId("idAddCarDialog").close();
             },
 
