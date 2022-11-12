@@ -81,7 +81,11 @@
             "i18n": {
                 "type": "sap.ui.model.resource.ResourceModel",
                 "settings": {
-                    "bundleName": "be.amista.carmanagecarsui.i18n.i18n"
+                    "bundleName": "be.amista.carmanagecarsui.i18n.i18n",
+                    "fallbackLocale": "en",
+                    "supportedLocales": [
+                        "en"
+                    ]
                 }
             },
             "": {
