@@ -39,6 +39,7 @@ sap.ui.define([
                     "VIN": this.getView().byId("idAddCarDialogVINInput").getValue(),
                     "MAKE": this.getView().byId("idAddCarDialogMakeInput").getValue(),
                     "MODEL": this.getView().byId("idAddCarDialogModelInput").getValue(),
+                    "CAR_TYPE_ID": parseInt(this.getView().byId("idAddCarDialogTypeInput").getSelectedKey()),
                     "COLOR": this.getView().byId("idAddCarDialogColorInput").getValue()
                 };
                 

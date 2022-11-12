@@ -12,6 +12,13 @@
             <Input id="idAddCarDialogModelInput" placeholder="{i18n>required}" />
             <Label id="idAddCarDialogColorLabel" text="{i18n>color}" labelFor="idAddCarDialogColorInput" />
             <Input id="idAddCarDialogColorInput" placeholder="{i18n>required}" />
+            <Label id="idAddCarDialogTypeLabel" text="{i18n>type}" labelFor="idAddCarDialogColorInput" />
+            <Select
+                id="idAddCarDialogTypeInput"
+                showSecondaryValues= "true"
+                items="{ path: '/CarTypes' }">
+                <core:ListItem id="idAddCarDialogTypeInputItem" key="{ID}" text="{TYPE}" additionalText="{ID}"/>
+            </Select>
         </VBox>
     </content>
     <beginButton>

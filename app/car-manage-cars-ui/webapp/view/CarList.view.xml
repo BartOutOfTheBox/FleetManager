@@ -10,6 +10,9 @@
 			path: '/Cars',
 			sorter: {
 				path: 'MAKE'
+			},
+			expand: {
+				path: 'CAR_TYPE'
 			}
 		}">
 		<headerToolbar>
@@ -29,6 +32,12 @@
 			<Column id="idCarsModel">
 				<Text id="idCarsModelText" text="Model" />
 			</Column>
+			<Column id="idCarsType">
+				<Text id="idCarsTypeText" text="Car Type" />
+			</Column>
+			<Column id="idCarsDoorsCount">
+				<Text id="idCarsDoorsCountText" text="Door Count" />
+			</Column>
 			<Column id="idCarsColor">
 				<Text id="idCarsColorText" text="Color" />
 			</Column>
@@ -45,6 +54,10 @@
 						text="{MAKE}" />
                     <Text id="idCarsModelValue"
 						text="{MODEL}" />
+					<Text id="idCarsTypeValue"
+						text="{CAR_TYPE/TYPE}" />
+					<Text id="idCarsDoorsCountValue"
+						text="{CAR_TYPE/DOOR_COUNT}" />
 					<Text id="idCarsColorValue"
 						text="{COLOR}" />
 					<Button id="idCarsDeleteButton" icon="sap-icon://delete" press="handlePressDeleteCarButton"/>
