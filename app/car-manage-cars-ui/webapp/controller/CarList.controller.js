@@ -34,6 +34,11 @@ sap.ui.define([
                 });
             },
 
+            /**
+             * When the user presses the button to confirm addin a car to the system.
+             * 
+             * @param {Object} oEvent - The click event supplied by the view.
+             */
             handleAddCarDialogConfirm: function (oEvent) {
                 var oEntry = {
                     "VIN": this.getView().byId("idAddCarDialogVINInput").getValue(),
@@ -49,12 +54,32 @@ sap.ui.define([
                 this.getView().byId("idAddCarDialog").close();
             },
 
+            /**
+             * When the user presses the button to cancel adding a car to the system.
+             * 
+             * @param {Object} oEvent - The click event supplied by the view.
+             */
             handleAddCarDialogCancel: function () {
                 if (this._addDialog) {
                     this.getView().byId("idAddCarDialog").close();
                 }
             },
+            
+            /**
+             * When the user presses the button to delete a car from the system.
+             * 
+             * @param {Object} oEvent - The click event supplied by the view.
+             */
+            handlePressDeleteCarButton: function(oEvent) {
+                var oBindingContext = oEvent.getSource().getBindingContext();
+                oBindingContext.delete();
+            },
 
+            /**
+             * When the user searches in the cars table.
+             * 
+             * @param {Object} oEvent - The click event supplied by the view.
+             */
             onCarsTableSeach: function(oEvent) {
                 var oCarsTable = this.getView().byId("idCarsTable");
                 var sValue = oEvent.getSource().getValue();
@@ -65,13 +90,8 @@ sap.ui.define([
                         value1: sValue,
                         caseSensitive: false,
                     });
-
+    
                 oCarsTable.getBinding("items").filter(oFilter, FilterType.Application);
-            },
-
-            handlePressDeleteCarButton: function(oEvent) {
-                var oBindingContext = oEvent.getSource().getBindingContext();
-                oBindingContext.delete();
             },
         });
     });
