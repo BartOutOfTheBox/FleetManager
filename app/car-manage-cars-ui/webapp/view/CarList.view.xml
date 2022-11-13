@@ -12,7 +12,7 @@
 				path: 'MAKE'
 			},
 			expand: {
-				path: 'CAR_TYPE'
+				path: 'TO_CAR_TYPE'
 			}
 		}">
 		<headerToolbar>
@@ -55,9 +55,9 @@
                     <Text id="idCarsModelValue"
 						text="{MODEL}" />
 					<Text id="idCarsTypeValue"
-						text="{CAR_TYPE/TYPE}" />
+						text="{TO_CAR_TYPE/TYPE}" />
 					<Text id="idCarsDoorsCountValue"
-						text="{CAR_TYPE/DOOR_COUNT}" />
+						text="{TO_CAR_TYPE/DOOR_COUNT}" />
 					<Text id="idCarsColorValue"
 						text="{COLOR}" />
 					<Button id="idCarsDeleteButton" icon="sap-icon://delete" press="handlePressDeleteCarButton"/>
