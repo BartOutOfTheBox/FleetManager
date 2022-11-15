@@ -3,16 +3,21 @@ sap.ui.define([
     "sap/ui/model/Filter",
 	"sap/ui/model/FilterOperator",
 	"sap/ui/model/FilterType",
+    "sap/m/MessageBox",
+    "sap/ui/model/SimpleType",
+    "sap/ui/model/ValidateException",
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller, Filter, FilterOperator, FilterType) {
+    function (Controller, Filter, FilterOperator, FilterType, MessageBox, SimpleType, ValidateException) {
         "use strict";
 
         return Controller.extend("be.amista.carmanagecarsui.controller.CarList", {
             onInit: function () {
-
+                // set message model
+                let oMessageManager = this.getMessageManager();
+                this.setModel(oMessageManager.getMessageModel(), "message");
             },
 
             /**
@@ -21,37 +26,37 @@ sap.ui.define([
              * @param {Object} oEvent - The click event supplied by the view.
              */
             handlePressAddCarButton: function (oEvent) {
-                // lazy loading
-                if (!this._addDialog) {
-                    this._addDialog = this.loadFragment({
-                        name: "be.amista.carmanagecarsui.fragment.AddCarDialog",
-                    });
-                }
-                
-                // open dialog
-                this._addDialog.then(function (oDialog) {
-                    oDialog.open();
-                });
+                let oMessageManager = this.getMessageManager();
+                oMessageManager.removeAllMessages();
+                let oDialog = this.getView().byId("idAddCarDialog");
+                let oListBinding = this.getView().byId("idCarsTable").getBinding("items");
+                let oContext = oListBinding.create({
+                    "VIN": "test",
+                    "MAKE": "test",
+                    "MODEL": "test",
+                    "TO_CAR_TYPE_ID": 1,
+                    "COLOR": "test",
+                }, undefined, undefined, true);
+                oDialog.setBindingContext(oContext);
+                oDialog.open();
+                // activate automatic message generation for the complete dialog
+                oMessageManager.registerObject(this.getView().byId("idAddCarDialog"), true);
             },
 
             /**
-             * When the user presses the button to confirm addin a car to the system.
+             * When the user presses the button to confirm adding a car to the system.
              * 
              * @param {Object} oEvent - The click event supplied by the view.
              */
-            handleAddCarDialogConfirm: function (oEvent) {
-                var oEntry = {
-                    "VIN": this.getView().byId("idAddCarDialogVINInput").getValue(),
-                    "MAKE": this.getView().byId("idAddCarDialogMakeInput").getValue(),
-                    "MODEL": this.getView().byId("idAddCarDialogModelInput").getValue(),
-                    "CAR_TYPE_ID": parseInt(this.getView().byId("idAddCarDialogTypeInput").getSelectedKey()),
-                    "COLOR": this.getView().byId("idAddCarDialogColorInput").getValue()
-                };
-                
-                var oBindingContext =this.getView().byId("idCarsTable").getBinding("items");
-                oBindingContext.create(oEntry);
-
-                this.getView().byId("idAddCarDialog").close();
+            handleAddCarDialogConfirm: async function (oEvent) {
+                try {
+                    await this.getModel().submitBatch("carGroup");
+                    const oDialog = this.getView().byId("idAddCarDialog");
+                    await oDialog.getBindingContext().created();
+                    oDialog.close();
+                } catch (error) {
+                    console.error(error);
+                }              
             },
 
             /**
@@ -60,9 +65,10 @@ sap.ui.define([
              * @param {Object} oEvent - The click event supplied by the view.
              */
             handleAddCarDialogCancel: function () {
-                if (this._addDialog) {
-                    this.getView().byId("idAddCarDialog").close();
-                }
+                this.getModel().resetChanges("carGroup");
+                this.getView().byId("idAddCarDialog").close();
+                this.getMessageManager().removeAllMessages();
+                this.getView().byId("idAddCarDialog").close();
             },
             
             /**
@@ -71,8 +77,19 @@ sap.ui.define([
              * @param {Object} oEvent - The click event supplied by the view.
              */
             handlePressDeleteCarButton: function(oEvent) {
-                var oBindingContext = oEvent.getSource().getBindingContext();
-                oBindingContext.delete();
+                let oBindingContext = oEvent.getSource().getBindingContext();
+                let oCar = oBindingContext.getObject();
+
+                let sWarningMessage = `Delete ${oCar.MAKE} ${oCar.MODEL} (${oCar.VIN})?`;
+                MessageBox.warning(sWarningMessage, {
+                    actions: [MessageBox.Action.DELETE, MessageBox.Action.CANCEL],
+                    emphasizedAction: MessageBox.Action.DELETE,
+                    onClose: function (sAction) {
+                        if (sAction === "DELETE") {
+                            oBindingContext.delete("$auto");
+                        }
+                    }
+                });
             },
 
             /**
@@ -81,9 +98,9 @@ sap.ui.define([
              * @param {Object} oEvent - The click event supplied by the view.
              */
             onCarsTableSeach: function(oEvent) {
-                var oCarsTable = this.getView().byId("idCarsTable");
-                var sValue = oEvent.getSource().getValue();
-                var oFilter = 
+                let oCarsTable = this.getView().byId("idCarsTable");
+                let sValue = oEvent.getSource().getValue();
+                let oFilter = 
                     new Filter({
                         path: 'MAKE',
                         operator: FilterOperator.Contains,
@@ -93,5 +110,30 @@ sap.ui.define([
     
                 oCarsTable.getBinding("items").filter(oFilter, FilterType.Application);
             },
+
+            /**
+             * Custom model type for validating an E-Mail address
+             * @class
+             * @extends sap.ui.model.SimpleType
+             */
+            vinType: SimpleType.extend("vin", {
+                formatValue: function (oValue) {
+                    return oValue;
+                },
+
+                parseValue: function (oValue) {
+                    //parsing step takes place before validating step, value could be altered here
+                    return oValue;
+                },
+
+                validateValue: function (oValue) {
+                    // The following Regex is only used for demonstration purposes and does not cover all variations of email addresses.
+                    // It's always better to validate an address by simply sending an e-mail to it.
+                    var rexMail = "[A-Ha-hJ-Nj-nPR-Zr-z0-9]{13}[0-9]{4}";
+                    if (!oValue.match(rexMail)) {
+                        throw new ValidateException("'" + oValue + "' is not a valid VIN number.");
+                    }
+                }
+            }),
         });
     });

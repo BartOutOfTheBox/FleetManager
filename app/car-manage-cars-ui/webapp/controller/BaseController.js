@@ -40,7 +40,16 @@ sap.ui.define([
              */
             getResourceBundle: function () {
                 return this.getOwnerComponent().getModel("i18n").getResourceBundle();
-            }
+            },
+
+            /**
+             * Convenience method for getting the message manager.
+             * @public
+             * @returns {sap.ui.core.message.MessageManager} the default Message Manager
+             */
+            getMessageManager: function () {
+                return sap.ui.getCore().getMessageManager();
+            },
         });
     }
 );
