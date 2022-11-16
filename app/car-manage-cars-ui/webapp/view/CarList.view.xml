@@ -30,6 +30,9 @@
 			<Column id="idCarsVin">
 				<Text id="idCarsVinText" text="VIN Number" />
 			</Column>
+			<Column id="idCarsProductionDate">
+				<Text id="idCarsProductionDateText" text="Production Date" />
+			</Column>
 			<Column id="idCarsMake">
 				<Text id="idCarsMakeText" text="Make" />
 			</Column>
@@ -54,6 +57,8 @@
 				<cells>
 					<Text id="idCarsVinValue"
 						text="{VIN}" />
+					<Text id="idCarsProductionDateValue"
+						text="{PRODUCTION_DATE}" />
 					<Text id="idCarsMakeValue"
 						text="{MAKE}" />
                     <Text id="idCarsModelValue"
@@ -79,6 +84,13 @@
 								type: '.vinType'
 							}" 
 							placeholder="{i18n>required}" />
+						<Label id="idAddCarDialogProductionDateLabel" text="{i18n>productionDate}" labelFor="idAddCarDialogProductionDateInput" />
+						<DatePicker	id="idAddCarDialogProductionDateInput" 
+							value= "{
+								path: 'PRODUCTION_DATE',
+								type: 'sap.ui.model.odata.type.Date'               
+							}" 
+							placeholder="Car Production Date" />
 						<Label id="idAddCarDialogMakeLabel" text="{i18n>make}" labelFor="idAddCarDialogMakeInput" />
 						<Input id="idAddCarDialogMakeInput" value="{MAKE}" placeholder="{i18n>required}" />
 						<Label id="idAddCarDialogModelLabel" text="{i18n>model}" labelFor="idAddCarDialogModelInput" />
@@ -97,6 +109,7 @@
 							}">
 							<core:ListItem id="idAddCarDialogTypeInputItem" key="{ID}" text="{TYPE}" additionalText="{ID}"/>
 						</Select>
+
 					</VBox>
 					<VBox id="idAddCarDialogMessageContainer"
 						items="{message>/}">

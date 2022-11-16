@@ -36,6 +36,7 @@ sap.ui.define([
                     "MODEL": null,
                     "TO_CAR_TYPE_ID": 1,
                     "COLOR": null,
+                    "PRODUCTION_DATE": null,
                 }, undefined, undefined, true);
                 oDialog.setBindingContext(oContext);
                 oDialog.open();
