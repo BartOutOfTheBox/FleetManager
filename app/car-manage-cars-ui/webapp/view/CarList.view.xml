@@ -78,7 +78,6 @@
 								path: 'VIN',
 								type: '.vinType'
 							}" 
-							valueStateText="dssdfsas;dkjs;"
 							placeholder="{i18n>required}" />
 						<Label id="idAddCarDialogMakeLabel" text="{i18n>make}" labelFor="idAddCarDialogMakeInput" />
 						<Input id="idAddCarDialogMakeInput" value="{MAKE}" placeholder="{i18n>required}" />

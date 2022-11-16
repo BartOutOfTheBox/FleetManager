@@ -31,11 +31,11 @@ sap.ui.define([
                 let oDialog = this.getView().byId("idAddCarDialog");
                 let oListBinding = this.getView().byId("idCarsTable").getBinding("items");
                 let oContext = oListBinding.create({
-                    "VIN": "test",
-                    "MAKE": "test",
-                    "MODEL": "test",
+                    "VIN": null,
+                    "MAKE": null,
+                    "MODEL": null,
                     "TO_CAR_TYPE_ID": 1,
-                    "COLOR": "test",
+                    "COLOR": null,
                 }, undefined, undefined, true);
                 oDialog.setBindingContext(oContext);
                 oDialog.open();
@@ -99,15 +99,19 @@ sap.ui.define([
              */
             onCarsTableSeach: function(oEvent) {
                 let oCarsTable = this.getView().byId("idCarsTable");
-                let sValue = oEvent.getSource().getValue();
-                let oFilter = 
-                    new Filter({
-                        path: 'MAKE',
-                        operator: FilterOperator.Contains,
-                        value1: sValue,
-                        caseSensitive: false,
-                    });
-    
+                let sFilterValue = oEvent.getSource().getValue();
+                const aFilterFields = ["VIN", "MAKE", "MODEL"];
+                const aFilters = aFilterFields.map((sFilterField) => {
+                    return (
+                        new Filter({
+                            path: sFilterField,
+                            operator: FilterOperator.Contains,
+                            value1: sFilterValue,
+                            caseSensitive: false,
+                        })
+                    );
+                });
+                let oFilter = new Filter(aFilters);
                 oCarsTable.getBinding("items").filter(oFilter, FilterType.Application);
             },
 
