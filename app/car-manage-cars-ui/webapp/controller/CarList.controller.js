@@ -149,10 +149,9 @@ sap.ui.define([
                 },
 
                 validateValue: function (oValue) {
-                    // The following Regex is only used for demonstration purposes and does not cover all variations of email addresses.
-                    // It's always better to validate an address by simply sending an e-mail to it.
-                    var rexMail = "[A-Ha-hJ-Nj-nPR-Zr-z0-9]{13}[0-9]{4}";
-                    if (!oValue.match(rexMail)) {
+                    // Regex to match vin numbers: 13 chars and 4 digits
+                    var sVinRegex = "[A-Ha-hJ-Nj-nPR-Zr-z0-9]{13}[0-9]{4}";
+                    if (!oValue.match(sVinRegex)) {
                         throw new ValidateException("'" + oValue + "' is not a valid VIN number.");
                     }
                 }

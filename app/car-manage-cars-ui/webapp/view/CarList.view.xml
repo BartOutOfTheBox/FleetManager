@@ -16,7 +16,7 @@
 				path: 'TO_CAR_TYPE'
 			},
 			parameters: {
-				 $$updateGroupId: 'carGroup'
+				$$updateGroupId: 'carGroup'
 			}
 		}">
 		<headerToolbar>
