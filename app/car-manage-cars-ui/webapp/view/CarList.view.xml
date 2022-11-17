@@ -53,7 +53,7 @@
 			</Column>
 		</columns>
 		<items>
-			<ColumnListItem id="idCarsListing">
+			<ColumnListItem id="idCarsListing" type="Active" press="handlePressCar">
 				<cells>
 					<Text id="idCarsVinValue"
 						text="{VIN}" />
@@ -88,7 +88,11 @@
 						<DatePicker	id="idAddCarDialogProductionDateInput" 
 							value= "{
 								path: 'PRODUCTION_DATE',
-								type: 'sap.ui.model.odata.type.Date'               
+								type: 'sap.ui.model.odata.type.Date',
+								formatOptions: { 
+									pattern: 'dd/MM/yyyy', 
+									UTC: true 
+								}              
 							}" 
 							placeholder="Car Production Date" />
 						<Label id="idAddCarDialogMakeLabel" text="{i18n>make}" labelFor="idAddCarDialogMakeInput" />

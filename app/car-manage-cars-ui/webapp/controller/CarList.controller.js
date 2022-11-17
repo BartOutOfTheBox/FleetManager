@@ -30,15 +30,32 @@ sap.ui.define([
                 oMessageManager.removeAllMessages();
                 let oDialog = this.getView().byId("idAddCarDialog");
                 let oListBinding = this.getView().byId("idCarsTable").getBinding("items");
+                let dateFormat = sap.ui.core.format.DateFormat.getDateInstance({pattern : "yyyy-MM-dd" }); 
                 let oContext = oListBinding.create({
                     "VIN": null,
                     "MAKE": null,
                     "MODEL": null,
                     "TO_CAR_TYPE_ID": 1,
                     "COLOR": null,
-                    "PRODUCTION_DATE": null,
+                    "PRODUCTION_DATE": dateFormat.format(new Date()),
                 }, undefined, undefined, true);
                 oDialog.setBindingContext(oContext);
+                oDialog.open();
+                // activate automatic message generation for the complete dialog
+                oMessageManager.registerObject(this.getView().byId("idAddCarDialog"), true);
+            },
+
+            /**
+             * When the user presses the a car from the table.
+             * 
+             * @param {Object} oEvent - The press event supplied by the view.
+             */
+            handlePressCar: function (oEvent) {
+                let oMessageManager = this.getMessageManager();
+                oMessageManager.removeAllMessages();                
+                let oBindingContext = oEvent.getSource().getBindingContext();
+                let oDialog = this.getView().byId("idAddCarDialog");
+                oDialog.setBindingContext(oBindingContext);
                 oDialog.open();
                 // activate automatic message generation for the complete dialog
                 oMessageManager.registerObject(this.getView().byId("idAddCarDialog"), true);
