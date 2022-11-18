@@ -18,6 +18,16 @@ sap.ui.define([
                 // set message model
                 let oMessageManager = this.getMessageManager();
                 this.setModel(oMessageManager.getMessageModel(), "message");
+                this._setViewModel();
+            },
+
+            _setViewModel: function () {
+                let oData = {
+                    today: new Date(),
+                    mode: "browse",
+                };
+                let oModel = new sap.ui.model.json.JSONModel(oData);
+                this.setModel(oModel, "viewModel");
             },
 
             /**
@@ -38,7 +48,8 @@ sap.ui.define([
                     "TO_CAR_TYPE_ID": 1,
                     "COLOR": null,
                     "PRODUCTION_DATE": dateFormat.format(new Date()),
-                }, undefined, undefined, true);
+                });
+                this.getModel("viewModel").setProperty("/mode", "create");
                 oDialog.setBindingContext(oContext);
                 oDialog.open();
                 // activate automatic message generation for the complete dialog
@@ -55,6 +66,7 @@ sap.ui.define([
                 oMessageManager.removeAllMessages();                
                 let oBindingContext = oEvent.getSource().getBindingContext();
                 let oDialog = this.getView().byId("idAddCarDialog");
+                this.getModel("viewModel").setProperty("/mode", "edit");
                 oDialog.setBindingContext(oBindingContext);
                 oDialog.open();
                 // activate automatic message generation for the complete dialog
@@ -72,6 +84,7 @@ sap.ui.define([
                     const oDialog = this.getView().byId("idAddCarDialog");
                     await oDialog.getBindingContext().created();
                     oDialog.close();
+                    this.getModel("viewModel").setProperty("/mode", "browse");
                 } catch (error) {
                     console.error(error);
                 }              
@@ -85,6 +98,7 @@ sap.ui.define([
             handleAddCarDialogCancel: function () {
                 this.getModel().resetChanges("carGroup");
                 this.getView().byId("idAddCarDialog").close();
+                this.getModel("viewModel").setProperty("/mode", "browse");
                 this.getMessageManager().removeAllMessages();
                 this.getView().byId("idAddCarDialog").close();
             },
@@ -95,6 +109,7 @@ sap.ui.define([
              * @param {Object} oEvent - The click event supplied by the view.
              */
             handlePressDeleteCarButton: function(oEvent) {
+                this.getModel("viewModel").setProperty("/mode", "delete");
                 let oBindingContext = oEvent.getSource().getBindingContext();
                 let oCar = oBindingContext.getObject();
 
@@ -106,6 +121,7 @@ sap.ui.define([
                         if (sAction === "DELETE") {
                             oBindingContext.delete("$auto");
                         }
+                        this.getModel("viewModel").setProperty("/mode", "browse");
                     }
                 });
             },

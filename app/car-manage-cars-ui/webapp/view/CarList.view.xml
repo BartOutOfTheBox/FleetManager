@@ -74,7 +74,7 @@
 			</ColumnListItem>
 		</items>
 		<dependents>
-			<Dialog id="idAddCarDialog" title="{i18n>addCarDialogTitle}" type="Message" contentWidth="50%">
+			<Dialog id="idAddCarDialog" title="{= ${viewModel>/mode} === 'create' ? ${i18n>addCarDialogTitle} : ${i18n>editCarDialogTitle}}" type="Message" contentWidth="50%">
 				<content>
 					<VBox id="idAddCarDialogVBox" class="sapUiSmallMargin">
 						<Label id="idAddCarDialogVINLabel" text="{i18n>VIN}" labelFor="idAddCarDialogVINInput" />
@@ -94,6 +94,7 @@
 									UTC: true 
 								}              
 							}" 
+							maxDate="{viewModel>/today}"
 							placeholder="Car Production Date" />
 						<Label id="idAddCarDialogMakeLabel" text="{i18n>make}" labelFor="idAddCarDialogMakeInput" />
 						<Input id="idAddCarDialogMakeInput" value="{MAKE}" placeholder="{i18n>required}" />
