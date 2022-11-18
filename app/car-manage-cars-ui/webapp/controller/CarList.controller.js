@@ -73,6 +73,21 @@ sap.ui.define([
                 oMessageManager.registerObject(this.getView().byId("idAddCarDialog"), true);
             },
 
+            closeAddCarDialog: function (oEvent) {
+                const oDialog = this.getView().byId("idAddCarDialog");
+                if (oDialog.isOpen()) oDialog.close();
+            },
+
+            /**
+             * Before the Add/Edit car dialog is closed
+             * 
+             * @param {Object} oEvent - the event
+             */
+             afterAddCarDialogClose: function (oEvent) {
+                let oClickedButton = oEvent.getParameter("origin");
+                if (oClickedButton == null) this.handleAddCarDialogCancel();
+            },
+
             /**
              * When the user presses the button to confirm adding a car to the system.
              * 
@@ -82,11 +97,15 @@ sap.ui.define([
                 try {
                     await this.getModel().submitBatch("carGroup");
                     const oDialog = this.getView().byId("idAddCarDialog");
-                    await oDialog.getBindingContext().created();
-                    oDialog.close();
+                    const oBindingContext = oDialog.getBindingContext();
+                    await oBindingContext.created();
+                    this.closeAddCarDialog();
+                    if (this.getModel("viewModel").getProperty("/mode") === "edit") {
+                        oBindingContext.refresh();
+                    }
                     this.getModel("viewModel").setProperty("/mode", "browse");
-                } catch (error) {
-                    console.error(error);
+                } catch (oError) {
+                    console.log(oError.message);
                 }              
             },
 
@@ -97,10 +116,9 @@ sap.ui.define([
              */
             handleAddCarDialogCancel: function () {
                 this.getModel().resetChanges("carGroup");
-                this.getView().byId("idAddCarDialog").close();
+                this.closeAddCarDialog();
                 this.getModel("viewModel").setProperty("/mode", "browse");
                 this.getMessageManager().removeAllMessages();
-                this.getView().byId("idAddCarDialog").close();
             },
             
             /**
@@ -109,6 +127,7 @@ sap.ui.define([
              * @param {Object} oEvent - The click event supplied by the view.
              */
             handlePressDeleteCarButton: function(oEvent) {
+                let that = this;
                 this.getModel("viewModel").setProperty("/mode", "delete");
                 let oBindingContext = oEvent.getSource().getBindingContext();
                 let oCar = oBindingContext.getObject();
@@ -121,7 +140,7 @@ sap.ui.define([
                         if (sAction === "DELETE") {
                             oBindingContext.delete("$auto");
                         }
-                        this.getModel("viewModel").setProperty("/mode", "browse");
+                        that.getModel("viewModel").setProperty("/mode", "browse");
                     }
                 });
             },
