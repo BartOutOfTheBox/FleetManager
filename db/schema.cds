@@ -8,6 +8,13 @@ context DATA {
             PRODUCTION_DATE : Date;
     };
 
+    entity CAR_MODEL {
+        key MAKE        : String(100) not null;
+        key MODEL       : String(100) not null;
+        key VERSION     : Integer;
+            TO_CAR_TYPE : Association to CAR_TYPE;
+    };
+
     entity CAR_TYPE {
         key ID      : Integer;
         TYPE        : String(50);
