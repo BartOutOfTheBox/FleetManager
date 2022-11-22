@@ -43,9 +43,10 @@ sap.ui.define([
                 let dateFormat = sap.ui.core.format.DateFormat.getDateInstance({pattern : "yyyy-MM-dd" }); 
                 let oContext = oListBinding.create({
                     "VIN": null,
-                    "MAKE": null,
-                    "MODEL": null,
-                    "TO_CAR_TYPE_ID": 1,
+                    "TO_CAR_MODEL_MAKE": null,
+                    "TO_CAR_MODEL_NAME": null,
+                    "TO_CAR_MODEL_VERSION": null,
+                    // "TO_CAR_TYPE_ID": 1,
                     "COLOR": null,
                     "PRODUCTION_DATE": dateFormat.format(new Date()),
                 });
@@ -132,7 +133,7 @@ sap.ui.define([
                 let oBindingContext = oEvent.getSource().getBindingContext();
                 let oCar = oBindingContext.getObject();
 
-                let sWarningMessage = `Delete ${oCar.MAKE} ${oCar.MODEL} (${oCar.VIN})?`;
+                let sWarningMessage = `Delete ${oCar.TO_CAR_MODEL_MAKE} ${oCar.TO_CAR_MODEL_NAME} (${oCar.VIN})?`;
                 MessageBox.warning(sWarningMessage, {
                     actions: [MessageBox.Action.DELETE, MessageBox.Action.CANCEL],
                     emphasizedAction: MessageBox.Action.DELETE,
@@ -153,7 +154,7 @@ sap.ui.define([
             onCarsTableSeach: function(oEvent) {
                 let oCarsTable = this.getView().byId("idCarsTable");
                 let sFilterValue = oEvent.getSource().getValue();
-                const aFilterFields = ["VIN", "MAKE", "MODEL"];
+                const aFilterFields = ["VIN", "TO_CAR_MODEL_MAKE", "TO_CAR_MODEL_NAME"];
                 const aFilters = aFilterFields.map((sFilterField) => {
                     return (
                         new Filter({
