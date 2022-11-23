@@ -45,8 +45,7 @@ sap.ui.define([
                     "VIN": null,
                     "TO_CAR_MODEL_MAKE": null,
                     "TO_CAR_MODEL_NAME": null,
-                    "TO_CAR_MODEL_VERSION": null,
-                    // "TO_CAR_TYPE_ID": 1,
+                    // "TO_CAR_MODEL_VERSION": null,
                     "COLOR": null,
                     "PRODUCTION_DATE": dateFormat.format(new Date()),
                 });

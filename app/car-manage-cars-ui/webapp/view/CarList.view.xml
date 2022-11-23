@@ -128,7 +128,7 @@
 								<core:Item id="idAddCarDialogModelInputSuggestion" text="{NAME}" />
 							</suggestionItems> 
 						</Input>
-						<Label id="idAddCarDialogVersionLabel" text="{i18n>version}" labelFor="idAddCarDialogVersionInput" />
+						<!-- <Label id="idAddCarDialogVersionLabel" text="{i18n>version}" labelFor="idAddCarDialogVersionInput" />
 						<Input id="idAddCarDialogVersionInput" 
 							value="{
 								path: 'TO_CAR_MODEL_VERSION',
@@ -143,7 +143,7 @@
 							<suggestionItems>
 								<core:Item id="idAddCarDialogVersionInputSuggestion" text="{VERSION}" />
 							</suggestionItems> 
-						</Input>
+						</Input> -->
 						<Label id="idAddCarDialogColorLabel" text="{i18n>color}" labelFor="idAddCarDialogColorInput" />
 						<Input id="idAddCarDialogColorInput" value="{COLOR}" placeholder="{i18n>required}" />
 						<!-- <Label id="idAddCarDialogTypeLabel" text="{i18n>type}" labelFor="idAddCarDialogColorInput" />
