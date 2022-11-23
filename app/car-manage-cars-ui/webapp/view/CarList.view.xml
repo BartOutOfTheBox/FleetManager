@@ -96,7 +96,7 @@
 							}" 
 							maxDate="{viewModel>/today}"
 							placeholder="Car Production Date" />
-						<Label id="idAddCarDialogMakeLabel" text="{i18n>make}" labelFor="idAddCarDialogMakeInput" />
+						<!-- <Label id="idAddCarDialogMakeLabel" text="{i18n>make}" labelFor="idAddCarDialogMakeInput" />
 						<Input id="idAddCarDialogMakeInput" 
 							value="{
 								path: 'TO_CAR_MODEL_MAKE',
@@ -111,39 +111,48 @@
 							<suggestionItems>
 								<core:Item id="idAddCarDialogMakeInputSuggestion" text="{MAKE}" />
 							</suggestionItems> 
-						</Input>
+						</Input> -->
 						<Label id="idAddCarDialogModelLabel" text="{i18n>model}" labelFor="idAddCarDialogModelInput" />
 						<Input id="idAddCarDialogModelInput" 
 							value="{
-								path: 'TO_CAR_MODEL_NAME',
-								type: 'sap.ui.model.odata.type.String',
-								constraints: {
-									nullable: false
-								}
+								parts: [
+									{
+										path: 'TO_CAR_MODEL_MAKE',
+										type: 'sap.ui.model.odata.type.String',
+										constraints: {
+											nullable: false
+										}
+									},
+									{
+										path: 'TO_CAR_MODEL_NAME',
+										type: 'sap.ui.model.odata.type.String',
+										constraints: {
+											nullable: false
+										}
+									}
+								],
+								type: '.carModelType'
 							}" 
 							placeholder="{i18n>required}" 
 							showSuggestion="true"
 							suggestionItems="{/CarModels}">
 							<suggestionItems>
-								<core:Item id="idAddCarDialogModelInputSuggestion" text="{NAME}" />
+								<core:Item id="idAddCarDialogModelInputSuggestion" 
+									text="{
+										parts: [
+											{
+												path: 'MAKE',
+												targetType: 'any'
+											},
+											{ 
+												path: 'NAME',
+												targetType: 'any'
+											}
+										],
+										type: '.carModelType'
+									}" />
 							</suggestionItems> 
 						</Input>
-						<!-- <Label id="idAddCarDialogVersionLabel" text="{i18n>version}" labelFor="idAddCarDialogVersionInput" />
-						<Input id="idAddCarDialogVersionInput" 
-							value="{
-								path: 'TO_CAR_MODEL_VERSION',
-								type: 'sap.ui.model.odata.type.String',
-								constraints: {
-									nullable: false
-								}
-							}" 
-							placeholder="{i18n>required}"
-							showSuggestion="true"
-							suggestionItems="{/CarModels}">
-							<suggestionItems>
-								<core:Item id="idAddCarDialogVersionInputSuggestion" text="{VERSION}" />
-							</suggestionItems> 
-						</Input> -->
 						<Label id="idAddCarDialogColorLabel" text="{i18n>color}" labelFor="idAddCarDialogColorInput" />
 						<Input id="idAddCarDialogColorInput" value="{COLOR}" placeholder="{i18n>required}" />
 						<!-- <Label id="idAddCarDialogTypeLabel" text="{i18n>type}" labelFor="idAddCarDialogColorInput" />
