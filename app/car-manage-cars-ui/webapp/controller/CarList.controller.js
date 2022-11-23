@@ -4,14 +4,13 @@ sap.ui.define([
 	"sap/ui/model/FilterOperator",
 	"sap/ui/model/FilterType",
     "sap/m/MessageBox",
-    "sap/ui/model/SimpleType",
-    "sap/ui/model/CompositeType",
-    "sap/ui/model/ValidateException",
+    "be/amista/carmanagecarsui/type/VehicleModel",
+    "be/amista/carmanagecarsui/type/VehicleIdentificationNumber",
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller, Filter, FilterOperator, FilterType, MessageBox, SimpleType, CompositeType, ValidateException) {
+    function (Controller, Filter, FilterOperator, FilterType, MessageBox, VehicleModel, VehicleIdentificationNumber) {
         "use strict";
 
         return Controller.extend("be.amista.carmanagecarsui.controller.CarList", {
@@ -167,71 +166,5 @@ sap.ui.define([
                 let oFilter = new Filter(aFilters);
                 oCarsTable.getBinding("items").filter(oFilter, FilterType.Application);
             },
-
-            /**
-             * Custom model type for validating an E-Mail address
-             * @class
-             * @extends sap.ui.model.SimpleType
-             */
-            vinType: SimpleType.extend("vin", {
-                /**
-                * Displaying data from the right model (model -> view)
-                */
-                formatValue: function (oValue) {
-                    return oValue;
-                },
-
-                /**
-                * Assigning entered value to the right model (view -> model)
-                */
-                parseValue: function (oValue) {
-                    //parsing step takes place before validating step, value could be altered here
-                    return oValue;
-                },
-
-                /**
-                 * Validate the input value
-                 * 
-                 * @param {*} oValue 
-                 */
-                validateValue: function (oValue) {
-                    // Regex to match vin numbers: 13 chars and 4 digits
-                    var sVinRegex = "[A-Ha-hJ-Nj-nPR-Zr-z0-9]{13}[0-9]{4}";
-                    if (!oValue.match(sVinRegex)) {
-                        throw new ValidateException("'" + oValue + "' is not a valid VIN number.");
-                    }
-                }
-            }),
-
-            /**
-             * Custom model type for car models
-             * @class
-             * @extends sap.ui.model.CompositeType
-             */
-             carModelType: CompositeType.extend("carModel", {
-                
-                constructor: function() {
-                    CompositeType.apply(this, arguments);
-                    this.bParseWithValues = true; // make 'parts' available in parseValue
-                },
-
-                /**
-                * Displaying data from the right model (model -> view)
-                */
-                formatValue: function (parts) {
-                    return `${parts[0]}, ${parts[1]}`;
-                },
-
-                /**
-                * Assigning entered value to the right model (view -> model)
-                */
-                parseValue: function (vValue, sTargetType) {
-                    return vValue.split(', ');
-                },
-
-                validateValue: function () {
-
-                },
-             }),
         });
     });
