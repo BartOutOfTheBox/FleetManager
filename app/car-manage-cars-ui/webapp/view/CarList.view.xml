@@ -10,7 +10,7 @@
 		items="{
 			path: '/Cars',
 			sorter: {
-				path: 'MAKE'
+				path: 'TO_CAR_MODEL/MAKE'
 			},
 			parameters: {
 				$$updateGroupId: 'carGroup'
@@ -57,13 +57,13 @@
 					<Text id="idCarsProductionDateValue"
 						text="{PRODUCTION_DATE}" />
 					<Text id="idCarsMakeValue"
-						text="{MAKE}" />
+						text="{TO_CAR_MODEL/MAKE}" />
                     <Text id="idCarsModelValue"
-						text="{MODEL}" />
+						text="{TO_CAR_MODEL/NAME}" />
 					<Text id="idCarsTypeValue"
-						text="{TO_CAR_TYPE/TYPE}" />
+						text="{TO_CAR_MODEL/TO_CAR_TYPE/NAME}" />
 					<Text id="idCarsDoorsCountValue"
-						text="{TO_CAR_TYPE/DOOR_COUNT}" />
+						text="{TO_CAR_MODEL/TO_CAR_TYPE/DOOR_COUNT}" />
 					<Text id="idCarsColorValue"
 						text="{COLOR}" />
 					<Button id="idCarsDeleteButton" icon="sap-icon://delete" press="handlePressDeleteCarButton"/>
@@ -96,29 +96,66 @@
 							}" 
 							maxDate="{viewModel>/today}"
 							placeholder="Car Production Date" />
-						<Label id="idAddCarDialogMakeLabel" text="{i18n>make}" labelFor="idAddCarDialogMakeInput" />
+						<!-- <Label id="idAddCarDialogMakeLabel" text="{i18n>make}" labelFor="idAddCarDialogMakeInput" />
 						<Input id="idAddCarDialogMakeInput" 
 							value="{
-								path: 'MAKE',
+								path: 'TO_CAR_MODEL_MAKE',
 								type: 'sap.ui.model.odata.type.String',
 								constraints: {
 									nullable: false
 								}
 							}" 
-							placeholder="{i18n>required}" />
+							placeholder="{i18n>required}"
+							showSuggestion="true"
+							suggestionItems="{/CarModels}">
+							<suggestionItems>
+								<core:Item id="idAddCarDialogMakeInputSuggestion" text="{MAKE}" />
+							</suggestionItems> 
+						</Input> -->
 						<Label id="idAddCarDialogModelLabel" text="{i18n>model}" labelFor="idAddCarDialogModelInput" />
 						<Input id="idAddCarDialogModelInput" 
 							value="{
-								path: 'MODEL',
-								type: 'sap.ui.model.odata.type.String',
-								constraints: {
-									nullable: false
-								}
+								parts: [
+									{
+										path: 'TO_CAR_MODEL_MAKE',
+										type: 'sap.ui.model.odata.type.String',
+										constraints: {
+											nullable: false
+										}
+									},
+									{
+										path: 'TO_CAR_MODEL_NAME',
+										type: 'sap.ui.model.odata.type.String',
+										constraints: {
+											nullable: false
+										}
+									}
+								],
+								type: '.carModelType'
 							}" 
-							placeholder="{i18n>required}" />
+							placeholder="{i18n>required}" 
+							showSuggestion="true"
+							suggestionItems="{/CarModels}">
+							<suggestionItems>
+								<core:Item id="idAddCarDialogModelInputSuggestion" 
+									text="{
+										parts: [
+											{
+												path: 'MAKE',
+												targetType: 'any'
+											},
+											{ 
+												path: 'NAME',
+												targetType: 'any'
+											}
+										],
+										type: '.carModelType'
+									}" />
+							</suggestionItems> 
+						</Input>
 						<Label id="idAddCarDialogColorLabel" text="{i18n>color}" labelFor="idAddCarDialogColorInput" />
 						<Input id="idAddCarDialogColorInput" value="{COLOR}" placeholder="{i18n>required}" />
-						<Label id="idAddCarDialogTypeLabel" text="{i18n>type}" labelFor="idAddCarDialogColorInput" />
+						<!-- <Label id="idAddCarDialogTypeLabel" text="{i18n>type}" labelFor="idAddCarDialogColorInput" />
 						<Select
 							id="idAddCarDialogTypeInput"
 							forceSelection="false"
@@ -129,7 +166,7 @@
 								type: 'sap.ui.model.type.Integer'
 							}">
 							<core:ListItem id="idAddCarDialogTypeInputItem" key="{ID}" text="{TYPE}" additionalText="{ID}"/>
-						</Select>
+						</Select> -->
 
 					</VBox>
 					<VBox id="idAddCarDialogMessageContainer"

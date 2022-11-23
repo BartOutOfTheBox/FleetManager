@@ -5,12 +5,13 @@ sap.ui.define([
 	"sap/ui/model/FilterType",
     "sap/m/MessageBox",
     "sap/ui/model/SimpleType",
+    "sap/ui/model/CompositeType",
     "sap/ui/model/ValidateException",
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller, Filter, FilterOperator, FilterType, MessageBox, SimpleType, ValidateException) {
+    function (Controller, Filter, FilterOperator, FilterType, MessageBox, SimpleType, CompositeType, ValidateException) {
         "use strict";
 
         return Controller.extend("be.amista.carmanagecarsui.controller.CarList", {
@@ -43,9 +44,8 @@ sap.ui.define([
                 let dateFormat = sap.ui.core.format.DateFormat.getDateInstance({pattern : "yyyy-MM-dd" }); 
                 let oContext = oListBinding.create({
                     "VIN": null,
-                    "MAKE": null,
-                    "MODEL": null,
-                    "TO_CAR_TYPE_ID": 1,
+                    "TO_CAR_MODEL_MAKE": null,
+                    "TO_CAR_MODEL_NAME": null,
                     "COLOR": null,
                     "PRODUCTION_DATE": dateFormat.format(new Date()),
                 });
@@ -132,7 +132,7 @@ sap.ui.define([
                 let oBindingContext = oEvent.getSource().getBindingContext();
                 let oCar = oBindingContext.getObject();
 
-                let sWarningMessage = `Delete ${oCar.MAKE} ${oCar.MODEL} (${oCar.VIN})?`;
+                let sWarningMessage = `Delete ${oCar.TO_CAR_MODEL_MAKE} ${oCar.TO_CAR_MODEL_NAME} (${oCar.VIN})?`;
                 MessageBox.warning(sWarningMessage, {
                     actions: [MessageBox.Action.DELETE, MessageBox.Action.CANCEL],
                     emphasizedAction: MessageBox.Action.DELETE,
@@ -153,7 +153,7 @@ sap.ui.define([
             onCarsTableSeach: function(oEvent) {
                 let oCarsTable = this.getView().byId("idCarsTable");
                 let sFilterValue = oEvent.getSource().getValue();
-                const aFilterFields = ["VIN", "MAKE", "MODEL"];
+                const aFilterFields = ["VIN", "TO_CAR_MODEL_MAKE", "TO_CAR_MODEL_NAME"];
                 const aFilters = aFilterFields.map((sFilterField) => {
                     return (
                         new Filter({
@@ -174,15 +174,26 @@ sap.ui.define([
              * @extends sap.ui.model.SimpleType
              */
             vinType: SimpleType.extend("vin", {
+                /**
+                * Displaying data from the right model (model -> view)
+                */
                 formatValue: function (oValue) {
                     return oValue;
                 },
 
+                /**
+                * Assigning entered value to the right model (view -> model)
+                */
                 parseValue: function (oValue) {
                     //parsing step takes place before validating step, value could be altered here
                     return oValue;
                 },
 
+                /**
+                 * Validate the input value
+                 * 
+                 * @param {*} oValue 
+                 */
                 validateValue: function (oValue) {
                     // Regex to match vin numbers: 13 chars and 4 digits
                     var sVinRegex = "[A-Ha-hJ-Nj-nPR-Zr-z0-9]{13}[0-9]{4}";
@@ -191,5 +202,36 @@ sap.ui.define([
                     }
                 }
             }),
+
+            /**
+             * Custom model type for car models
+             * @class
+             * @extends sap.ui.model.CompositeType
+             */
+             carModelType: CompositeType.extend("carModel", {
+                
+                constructor: function() {
+                    CompositeType.apply(this, arguments);
+                    this.bParseWithValues = true; // make 'parts' available in parseValue
+                },
+
+                /**
+                * Displaying data from the right model (model -> view)
+                */
+                formatValue: function (parts) {
+                    return `${parts[0]}, ${parts[1]}`;
+                },
+
+                /**
+                * Assigning entered value to the right model (view -> model)
+                */
+                parseValue: function (vValue, sTargetType) {
+                    return vValue.split(', ');
+                },
+
+                validateValue: function () {
+
+                },
+             }),
         });
     });
