@@ -1,6 +1,8 @@
 sap.ui.define([
     "sap/ui/model/SimpleType",
-], function(SimpleType) {
+    "sap/ui/model/ValidateException",
+], 
+    function(SimpleType, ValidateException) {
 	"use strict";
 
     /**

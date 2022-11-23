@@ -4,14 +4,13 @@ sap.ui.define([
 	"sap/ui/model/FilterOperator",
 	"sap/ui/model/FilterType",
     "sap/m/MessageBox",
-    "sap/ui/model/ValidateException",
     "be/amista/carmanagecarsui/type/VehicleModel",
     "be/amista/carmanagecarsui/type/VehicleIdentificationNumber",
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller, Filter, FilterOperator, FilterType, MessageBox, ValidateException, VehicleModel, VehicleIdentificationNumber) {
+    function (Controller, Filter, FilterOperator, FilterType, MessageBox, VehicleModel, VehicleIdentificationNumber) {
         "use strict";
 
         return Controller.extend("be.amista.carmanagecarsui.controller.CarList", {

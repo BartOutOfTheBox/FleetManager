@@ -1,6 +1,7 @@
 sap.ui.define([
     "sap/ui/model/CompositeType",
-], function(CompositeType) {
+], 
+    function(CompositeType) {
 	"use strict";
 
     /**
