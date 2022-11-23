@@ -9,7 +9,7 @@ context DATA {
     entity CAR_MODEL {
         key NAME        : String(100) not null;
         key MAKE        : String(100) not null;
-        key VERSION     : Integer;
+        key VERSION     : String(100);
             TO_CAR_TYPE : Association to CAR_TYPE;
     };
 

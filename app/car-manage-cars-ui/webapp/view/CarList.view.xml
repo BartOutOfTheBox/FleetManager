@@ -132,7 +132,7 @@
 						<Input id="idAddCarDialogVersionInput" 
 							value="{
 								path: 'TO_CAR_MODEL_VERSION',
-								type: 'sap.ui.model.odata.type.Int32',
+								type: 'sap.ui.model.odata.type.String',
 								constraints: {
 									nullable: false
 								}
